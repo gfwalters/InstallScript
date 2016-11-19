@@ -131,6 +131,19 @@ fi
 echo -e "\n---- Setting permissions on home folder ----"
 sudo chown -R $OE_USER:$OE_USER $OE_HOME/*
 
+echo -e "\n---- Downloading debranding modules ----"
+sudo su $OE_USER -c "rm -rf $OE_HOME/custom/misc-addons"
+sudo su $OE_USER -c "git clone https://github.com/gfwalters/misc-addons.git $OE_HOME/custom/misc-addons"
+ADDITIONAL_ADDONS="$ADDITIONAL_ADDONS,$OE_HOME/custom/misc-addons"
+
+sudo su $OE_USER -c "rm -rf $OE_HOME/custom/access-addons"
+sudo su $OE_USER -c "git clone https://github.com/gfwalters/access-addons.git $OE_HOME/custom/access-addons"
+ADDITIONAL_ADDONS="$ADDITIONAL_ADDONS,$OE_HOME/custom/access-addons"
+
+sudo su $OE_USER -c "rm -rf $OE_HOME/custom/mail-addons"
+sudo su $OE_USER -c "git clone https://github.com/gfwalters/mail-addons.git $OE_HOME/custom/mail-addons"
+ADDITIONAL_ADDONS="$ADDITIONAL_ADDONS,$OE_HOME/custom/mail-addons"
+
 echo -e "* Create server config file"
 sudo cp $OE_HOME_EXT/debian/odoo.conf /etc/${OE_CONFIG}.conf
 sudo chown $OE_USER:$OE_USER /etc/${OE_CONFIG}.conf
@@ -142,9 +155,9 @@ sudo sed -i s/"; admin_passwd.*"/"admin_passwd = $OE_SUPERADMIN"/g /etc/${OE_CON
 sudo su root -c "echo '[options]' >> /etc/${OE_CONFIG}.conf"
 sudo su root -c "echo 'logfile = /var/log/$OE_USER/$OE_CONFIG$1.log' >> /etc/${OE_CONFIG}.conf"
 if [  $IS_ENTERPRISE = "True" ]; then
-    sudo su root -c "echo 'addons_path=$OE_HOME/enterprise/addons,$OE_HOME_EXT/addons' >> /etc/${OE_CONFIG}.conf"
+    sudo su root -c "echo 'addons_path=$OE_HOME/enterprise/addons,$OE_HOME_EXT/addons$ADDITIONAL_ADDONS' >> /etc/${OE_CONFIG}.conf"
 else
-    sudo su root -c "echo 'addons_path=$OE_HOME_EXT/addons,$OE_HOME/custom/addons' >> /etc/${OE_CONFIG}.conf"
+    sudo su root -c "echo 'addons_path=$OE_HOME_EXT/addons,$OE_HOME/custom/addons$ADDITIONAL_ADDONS' >> /etc/${OE_CONFIG}.conf"
 fi
 
 echo -e "* Create startup file"
