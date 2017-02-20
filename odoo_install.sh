@@ -69,6 +69,10 @@ sudo apt-get install python-dateutil python-feedparser python-ldap python-libxsl
 echo -e "\n---- Install python libraries ----"
 sudo pip install gdata psycogreen ofxparse XlsxWriter
 
+echo -e "\n---- Install misc python tools ----"
+sudo pip install rmate
+
+echo -e "\n--- Install other required packages"
 echo -e "\n--- Install other required packages"
 sudo apt-get install node-clean-css -y
 sudo apt-get install node-less -y
