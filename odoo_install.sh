@@ -67,7 +67,7 @@ echo -e "\n---- Install python packages ----"
 sudo apt-get install python-dateutil python-feedparser python-ldap python-libxslt1 python-lxml python-mako python-openid python-psycopg2 python-pybabel python-pychart python-pydot python-pyparsing python-reportlab python-simplejson python-tz python-vatnumber python-vobject python-webdav python-werkzeug python-xlwt python-yaml python-zsi python-docutils python-psutil python-mock python-unittest2 python-jinja2 python-pypdf python-decorator python-requests python-passlib python-pil -y python-suds
 	
 echo -e "\n---- Install python libraries ----"
-sudo pip install gdata psycogreen ofxparse XlsxWriter
+sudo pip install gdata psycogreen ofxparse XlsxWriter xlrd
 
 echo -e "\n---- Install misc python tools ----"
 sudo pip install rmate
@@ -126,11 +126,11 @@ if [ $IS_ENTERPRISE = "True" ]; then
     sudo apt-get install nodejs npm
     sudo npm install -g less
     sudo npm install -g less-plugin-clean-css
-else
-    echo -e "\n---- Create custom module directory ----"
-    sudo su $OE_USER -c "mkdir $OE_HOME/custom"
-    sudo su $OE_USER -c "mkdir $OE_HOME/custom/addons"
 fi
+
+echo -e "\n---- Create custom module directory ----"
+sudo su $OE_USER -c "mkdir $OE_HOME/custom"
+sudo su $OE_USER -c "mkdir $OE_HOME/custom/addons"
 
 echo -e "\n---- Setting permissions on home folder ----"
 sudo chown -R $OE_USER:$OE_USER $OE_HOME/*
